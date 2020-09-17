@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.multiple.authentication.auth.OTPAuthToken;
 import com.multiple.authentication.auth.UserPasswordAuthToken;
 import com.multiple.authentication.model.UserSecurityKey;
 import com.multiple.authentication.repo.UserSecretKeyRepo;;
@@ -49,7 +50,7 @@ public class UserpasswordAuthFilter extends OncePerRequestFilter {
 
 		} else {
 			// through the key
-			// manager.authenticate(new otp);
+			Authentication authenticate = manager.authenticate(new OTPAuthToken(uname, password));
 
 			// generate a token
 			response.setHeader("Authorization", UUID.randomUUID().toString());

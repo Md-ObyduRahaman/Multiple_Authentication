@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.multiple.authentication.filter.UserpasswordAuthFilter;
+import com.multiple.authentication.provider.OTPAuthProvider;
 import com.multiple.authentication.provider.UserPasswordAuthprovider;
 
 @Configuration
@@ -21,6 +22,8 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
 	UserpasswordAuthFilter filter;
 	@Autowired
 	UserPasswordAuthprovider userPasswordAuthProvider;
+	@Autowired
+	OTPAuthProvider otpAuthProvider;
 
 	@Bean
 	@Override
@@ -31,7 +34,7 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(userPasswordAuthProvider);
+		auth.authenticationProvider(userPasswordAuthProvider).authenticationProvider(otpAuthProvider);
 	}
 
 	@Override
