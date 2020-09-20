@@ -52,6 +52,8 @@ public class UserpasswordAuthFilter extends OncePerRequestFilter {
 			// through the key
 			Authentication authenticate = manager.authenticate(new SecretKeyAuthToken(uname, key));
 
+			// store inside db
+
 			// generate a token
 			response.setHeader("Authorization", UUID.randomUUID().toString());
 		}
