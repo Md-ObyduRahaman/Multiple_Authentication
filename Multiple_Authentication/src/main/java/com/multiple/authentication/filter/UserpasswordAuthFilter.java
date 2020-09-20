@@ -15,7 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.multiple.authentication.auth.OTPAuthToken;
+import com.multiple.authentication.auth.SecretKeyAuthToken;
 import com.multiple.authentication.auth.UserPasswordAuthToken;
 import com.multiple.authentication.model.UserSecurityKey;
 import com.multiple.authentication.repo.UserSecretKeyRepo;;
@@ -50,7 +50,7 @@ public class UserpasswordAuthFilter extends OncePerRequestFilter {
 
 		} else {
 			// through the key
-			Authentication authenticate = manager.authenticate(new OTPAuthToken(uname, password));
+			Authentication authenticate = manager.authenticate(new SecretKeyAuthToken(uname, key));
 
 			// generate a token
 			response.setHeader("Authorization", UUID.randomUUID().toString());
@@ -61,7 +61,7 @@ public class UserpasswordAuthFilter extends OncePerRequestFilter {
 	// this method enable request in runtime
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-		return !request.getServletPath().equals("/hello");
+		return !request.getServletPath().equals("/login");
 	}
 
 }

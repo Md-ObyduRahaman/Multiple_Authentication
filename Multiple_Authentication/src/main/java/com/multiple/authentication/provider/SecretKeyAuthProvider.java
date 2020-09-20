@@ -10,12 +10,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
-import com.multiple.authentication.auth.OTPAuthToken;
+import com.multiple.authentication.auth.SecretKeyAuthToken;
 import com.multiple.authentication.model.UserSecurityKey;
 import com.multiple.authentication.repo.UserSecretKeyRepo;
 
 @Component
-public class OTPAuthProvider implements AuthenticationProvider {
+public class SecretKeyAuthProvider implements AuthenticationProvider {
 
 	@Autowired
 	UserSecretKeyRepo secretkeyRepo;
@@ -25,7 +25,7 @@ public class OTPAuthProvider implements AuthenticationProvider {
 
 		Optional<UserSecurityKey> user = secretkeyRepo.findByusername(authentication.getName());
 		if (user.isPresent()) {
-			return new OTPAuthToken(authentication.getName(), authentication.getCredentials(),
+			return new SecretKeyAuthToken(authentication.getName(), authentication.getCredentials(),
 					Arrays.asList(() -> "read"));
 		}
 		throw new BadCredentialsException("Failed secret key Authentication !!");
@@ -34,7 +34,7 @@ public class OTPAuthProvider implements AuthenticationProvider {
 	@Override
 	public boolean supports(Class<?> authentication) {
 		// TODO Auto-generated method stub
-		return OTPAuthToken.class.equals(authentication);
+		return SecretKeyAuthToken.class.equals(authentication);
 	}
 
 }
